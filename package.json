@@ -1,0 +1,40 @@
+{
+  "name": "reorder-topojson",
+  "version": "1.0.0",
+  "description": "Sort TopoJSON arcs into a particular order",
+  "main": "dist/reorder-topojson.umd.js",
+  "module": "dist/reorder-topojson.es.js",
+  "jsnext:main": "dist/reorder-topojson.es.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "mocha",
+    "lint": "eslint src",
+    "build": "rollup -c",
+    "pretest": "npm run build",
+    "prepublish": "npm run lint && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/Rich-Harris/reorder-topojson.git"
+  },
+  "keywords": [
+    "topojson",
+    "topology",
+    "geojson"
+  ],
+  "author": "Rich Harris",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/Rich-Harris/reorder-topojson/issues"
+  },
+  "homepage": "https://gitlab.com/Rich-Harris/reorder-topojson#README",
+  "devDependencies": {
+    "eslint": "^3.8.1",
+    "mocha": "^3.1.2",
+    "rollup": "^0.36.3",
+    "rollup-plugin-buble": "^0.14.0"
+  }
+}
