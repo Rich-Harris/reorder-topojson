@@ -33,38 +33,41 @@ export function reorder ( topology, order ) {
 
 	const visitors = {
 		GeometryCollection ( collection ) {
-			collection.forEach( visit );
+			collection.geometries.forEach( visit );
 		},
 
 		Point () {},
 		MultiPoint () {},
 
-		LineString ( arcIndices ) {
-			renumberString( arcIndices );
+		LineString ( geometry ) {
+			renumberString( geometry.arcs );
 		},
 
-		MultiLineString ( strings ) {
-			for ( let i = 0; i < strings.length; i += 1 ) {
-				renumberString( strings[i] );
+		MultiLineString ( geometry ) {
+			for ( let i = 0; i < geometry.arcs.length; i += 1 ) {
+				renumberString( geometry.arcs[i] );
 			}
 		},
 
-		Polygon ( rings ) {
-			for ( let i = 0; i < rings.length; i += 1 ) {
-				renumberString( rings[i] );
+		Polygon ( geometry ) {
+			for ( let i = 0; i < geometry.arcs.length; i += 1 ) {
+				renumberString( geometry.arcs[i] );
 			}
 		},
 
-		MultiPolygon ( polygons ) {
-			for ( let i = 0; i < polygons.length; i += 1 ) {
-				visitors.Polygon( polygons[i] );
+		MultiPolygon ( geometry ) {
+			for ( let i = 0; i < geometry.arcs.length; i += 1 ) {
+				const polygon = geometry.arcs[i];
+				for ( let j = 0; j < polygon.length; j += 1 ) {
+					renumberString( polygon[j] );
+				}
 			}
 		}
 	};
 
 	function visit ( geometry ) {
 		const visitor = visitors[ geometry.type ];
-		if ( visitor ) visitor( geometry.arcs );
+		if ( visitor ) visitor( geometry );
 	}
 
 	const ranges = {};
