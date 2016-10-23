@@ -2,6 +2,9 @@ export function reorder ( topology, order ) {
 	const map = {};
 	const arcs = [];
 
+	let minArc;
+	let maxArc;
+
 	let acc = 0;
 
 	function renumber ( arcIndex ) {
@@ -15,7 +18,11 @@ export function reorder ( topology, order ) {
 			acc += 1;
 		}
 
-		return reversed ? ~map[ arcIndex ] : map[ arcIndex ];
+		const newIndex = map[ arcIndex ];
+		if ( newIndex < minArc ) minArc = newIndex;
+		if ( newIndex > maxArc ) maxArc = newIndex;
+
+		return reversed ? ~newIndex : newIndex;
 	}
 
 	function renumberString ( arcIndices ) {
@@ -60,10 +67,18 @@ export function reorder ( topology, order ) {
 		if ( visitor ) visitor( geometry.arcs );
 	}
 
-	order.forEach( nameOrObject => {
-		const geometry = typeof nameOrObject === 'string' ? topology.objects[ nameOrObject ] : nameOrObject;
+	const ranges = {};
+
+	order.forEach( name => {
+		minArc = Infinity;
+		maxArc = -Infinity;
+
+		const geometry = topology.objects[ name ];
 		visit( geometry );
+
+		ranges[ name ] = [ minArc, maxArc ];
 	});
 
 	topology.arcs = arcs;
+	return ranges;
 }

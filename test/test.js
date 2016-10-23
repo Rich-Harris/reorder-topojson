@@ -40,7 +40,7 @@ describe( 'reorder-topojson', () => {
 
 		const original = clone( topology );
 
-		reorder( topology, [ 'foo', 'bar' ]);
+		const ranges = reorder( topology, [ 'foo', 'bar' ]);
 
 		assert.deepEqual( topology, {
 			type: 'Topology',
@@ -58,6 +58,11 @@ describe( 'reorder-topojson', () => {
 					arcs: [ 1 ]
 				}
 			}
+		});
+
+		assert.deepEqual( ranges, {
+			foo: [ 0, 0 ],
+			bar: [ 1, 1 ]
 		});
 	});
 
@@ -97,7 +102,7 @@ describe( 'reorder-topojson', () => {
 
 		const original = clone( topology );
 
-		reorder( topology, [ 'littleSquare', 'bigSquare' ]);
+		const ranges = reorder( topology, [ 'littleSquare', 'bigSquare' ]);
 
 		assert.deepEqual( topology, {
 			type: 'Topology',
@@ -116,6 +121,11 @@ describe( 'reorder-topojson', () => {
 					arcs: [ [ 0, 2 ] ]
 				}
 			}
+		});
+
+		assert.deepEqual( ranges, {
+			littleSquare: [ 0, 1 ],
+			bigSquare: [ 0, 2 ]
 		});
 	});
 });

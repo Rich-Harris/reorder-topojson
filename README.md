@@ -14,22 +14,13 @@ Install with `npm i reorder-topojson`, or grab it from [unpkg.com](https://unpkg
 ```js
 import { reorder } from 'reorder-topojson';
 
-// using names
-reorder( topology, [
-  'foo',
-  'bar',
-  'baz'
-]);
+const ranges = reorder( topology, [ 'foo', 'bar', 'baz' ]);
 
-// using obejcts (equivalent to previous example)
-reorder( topology, [
-  topology.objects.foo,
-  topology.objects.bar,
-  topology.objects.baz
-]);
+console.log( ranges );
+// { foo: [ a, b ], bar: [ c, d ], baz: [ e, f ] }
 ```
 
-The topology is modified in place. As a side-effect, unused arcs will be pruned.
+The topology is modified in place. As a side-effect, unused arcs will be pruned. The returned `ranges` object contains, for each object, an array containing the first and last arcs used – helpful if you need to slice up the `arcs` array for progressive loading.
 
 
 ## License
